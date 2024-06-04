@@ -5,6 +5,7 @@ import HomePage from "../Pages/HomePage";
 import PageNotFound from "../Pages/PageNotFound";
 import ProtectedRoute from "../Components/auth/ProtectedRoute";
 import LoginPage from "../Pages/LoginPage";
+import PageDetails from "../Pages/PageDetails";
 // import ProtectedRoute from "../components/auth/ProtectedRoute";
 // import ErrorHandler from "../components/errors/ErrorHandler";
 // import HomePage from "../pages";
@@ -28,8 +29,9 @@ const router = createBrowserRouter(
       {/* Root Layout */}
       <Route path="/" element={<RootLayout />} errorElement={<ErrorHandler />}>
         <Route index element={<HomePage />} />
-        {/* <Route path="contact" element={<ContactPage />} />
-        <Route path="about" element={<AboutPage />} /> */}
+        <Route path="food/:id" element={<PageDetails/>} />
+        {/* <Route path="about" element={<AboutPage />} /> */}
+
         {/* <Route
           path="contribute"
           element={
