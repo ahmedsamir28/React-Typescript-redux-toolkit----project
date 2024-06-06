@@ -1,16 +1,19 @@
 import { Link } from "react-router-dom"
+import Button from "../UI-items/Button"
 
 
 const NavBar = () => {
     return (
-        <div className=" shadow-xl  bg-base-100 ">
+        <div className=" shadow-xl  bg-base-300 ">
             <div className="container navbar">
                 <div className="flex-1">
                     <Link to="/" className="btn btn-ghost text-xl">daisyUI</Link>
                 </div>
                 <div className="flex-none">
                     <Link className="px-3 py-2" to="/login">
-                        Login
+                        <Button className="bg-warning hover:bg-amber-500 font-medium  px-3 py-2">
+                            Login
+                        </Button>                    
                     </Link>
                     <div className="dropdown dropdown-end">
                         <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
@@ -23,7 +26,7 @@ const NavBar = () => {
                             <div className="card-body">
                                 <span className="font-bold text-lg">8 Items</span>
                                 <span className="text-info">Subtotal: $999</span>
-                                <Link to="/cart"  className="card-actions">
+                                <Link to="/cart" className="card-actions">
                                     <button className="btn btn-primary btn-block">View cart</button>
                                 </Link>
                             </div>
