@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 
 const NavBar = () => {
     return (
-        <div className=" shadow-xl  bg-base-100">
+        <div className=" shadow-xl  bg-base-100 ">
             <div className="container navbar">
                 <div className="flex-1">
                     <Link to="/" className="btn btn-ghost text-xl">daisyUI</Link>
@@ -23,9 +23,9 @@ const NavBar = () => {
                             <div className="card-body">
                                 <span className="font-bold text-lg">8 Items</span>
                                 <span className="text-info">Subtotal: $999</span>
-                                <div className="card-actions">
+                                <Link to="/cart"  className="card-actions">
                                     <button className="btn btn-primary btn-block">View cart</button>
-                                </div>
+                                </Link>
                             </div>
                         </div>
                     </div>

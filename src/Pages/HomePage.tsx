@@ -14,7 +14,7 @@ const HomePage = () => {
                 <ProductCard />
                 <ProductCard />
                 <ProductCard />
-                <ProductCard />w
+                <ProductCard />
                 <ProductCard />
             </div>
 
