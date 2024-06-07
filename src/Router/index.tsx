@@ -7,6 +7,7 @@ import ProtectedRoute from "../Components/auth/ProtectedRoute";
 import LoginPage from "../Pages/LoginPage";
 import PageDetails from "../Pages/PageDetails";
 import CartPage from "../Pages/CartPage";
+import RegisterPage from "../Pages/RegisterPage";
 // import ProtectedRoute from "../components/auth/ProtectedRoute";
 // import ErrorHandler from "../components/errors/ErrorHandler";
 // import HomePage from "../pages";
@@ -51,10 +52,9 @@ const router = createBrowserRouter(
           }
         /> */}
 
-        <Route
-          path="login"
-          element={<LoginPage/>}
-        />
+        <Route  path="login"  element={<LoginPage/>}/>
+        <Route  path="register"  element={<RegisterPage/>}/>
+
       </Route>
 
       {/* Learn Layout */}

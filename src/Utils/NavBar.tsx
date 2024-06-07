@@ -15,6 +15,11 @@ const NavBar = () => {
                             Login
                         </Button>                    
                     </Link>
+                    <Link className="px-3 py-2" to="/register">
+                        <Button className="bg-warning hover:bg-amber-500 font-medium  px-3 py-2">
+                            Register
+                        </Button>                    
+                    </Link>
                     <div className="dropdown dropdown-end">
                         <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
                             <div className="indicator">

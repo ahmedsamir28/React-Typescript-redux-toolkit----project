@@ -1,4 +1,6 @@
 import ProductCard from "../Components/Product/ProductCard"
+import Button from "../UI-items/Button"
+import Image from "../UI-items/Image"
 import Landing from "../Utils/Landing"
 
 
@@ -18,24 +20,24 @@ const HomePage = () => {
                 <ProductCard />
             </div>
 
-            <div className="mb-5">
-                <section className=" border-2">
-                    <div className="mx-auto max-w-screen-2xl px-4 py-16 sm:px-6 lg:px-8">
+            <div className="mb-16 mt-10 ">
+                <section className="bg-base-200 border-2 border-base-300 shadow-lg rounded-lg">
+                    <div className="mx-auto max-w-screen-2xl px-4 py-5  sm:px-6 lg:px-8">
                         <div className="grid grid-cols-1  lg:grid-cols-2">
 
                             <div className="relative z-10 lg:py-16">
                                 <div className="relative h-64 sm:h-80 lg:h-full">
-                                    <img
+                                    <Image
                                         alt=""
-                                        src="https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-                                        className="absolute inset-0 h-96 w-full object-cover"
+                                        url="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Zm9vZHN8ZW58MHx8MHx8fDA%3D"
+                                        className="absolute inset-0 h-96 w-full object-cover rounded-lg"
                                     />
                                 </div>
                             </div>
 
-                            <div className="relative flex items-center bg-gray-100">
+                            <div className="relative flex items-center bg-gray-100 rounded-r-lg">
                                 <span
-                                    className="hidden lg:absolute lg:inset-y-0 lg:-start-16 lg:block lg:w-16 lg:bg-gray-100"
+                                    className="rounded-l-lg hidden lg:absolute lg:inset-y-0 lg:-start-16 lg:block lg:w-16 lg:bg-gray-100"
                                 ></span>
 
                                 <div className="p-8 sm:p-16 lg:p-24">
@@ -49,12 +51,11 @@ const HomePage = () => {
                                         architecto eius quis quibusdam fugiat dicta.
                                     </p>
 
-                                    <a
-                                        href="#"
-                                        className="mt-8 inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
-                                    >
+
+                                    <Button
+                                        className="text-sm font-bold mt-8 inline-block rounded border border-amber-400 bg-amber-400 px-12 py-3 text-white hover:bg-transparent hover:text-amber-500 focus:outline-none focus:ring active:text-amber-500">
                                         Get in Touch
-                                    </a>
+                                    </Button>
                                 </div>
                             </div>
                         </div>
