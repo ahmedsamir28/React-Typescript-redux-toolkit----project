@@ -1,13 +1,17 @@
-import { InputHTMLAttributes } from "react"
+import { forwardRef, InputHTMLAttributes } from "react"
 
 interface IProps extends InputHTMLAttributes<HTMLInputElement> {
     
 }
 
-const Input = ({...rest}:IProps) => {
+const Input =forwardRef<HTMLInputElement,IProps>( ({...rest} ,ref) => {
     return (
-        <input  className="input input-bordered input-warning w-full max-w-xs" {...rest}/>
+        <input
+            ref={ref}
+            className="input input-bordered input-warning w-full" 
+            {...rest}
+            />
     )
-}
+})
 
 export default Input

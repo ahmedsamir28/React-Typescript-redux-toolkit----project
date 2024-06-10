@@ -1,6 +1,8 @@
 
-interface IProps {
-    
+interface IFormInput {
+    username: string;
+    email: string;
+    password: string;
 }
 
 const RegisterPage = () => {
