@@ -1,11 +1,18 @@
+import { useSelector } from "react-redux"
 import ProductCard from "../Components/Product/ProductCard"
 import Button from "../UI-items/Button"
 import Image from "../UI-items/Image"
 import Landing from "../Utils/Landing"
+import { RootState } from "../Redux/store"
 
 
 
 const HomePage = () => {
+    const {value} = useSelector((state:RootState)=>state.counter)
+    console.log('====================================');
+    console.log(value);
+    console.log('====================================');
+
     return (
         <>
             <Landing />
