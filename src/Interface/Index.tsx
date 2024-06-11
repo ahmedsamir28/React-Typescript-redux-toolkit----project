@@ -31,8 +31,10 @@ export interface IErrorResponse {
     };
 }
 
-export interface iDate {
+export interface IData {
     id: number,
     title: string,
-    description: string
+    description: string,
+    price:number,
+    qty:number
 }

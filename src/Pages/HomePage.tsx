@@ -8,7 +8,7 @@ import { RootState } from "../Redux/store"
 
 
 const HomePage = () => {
-    const {value} = useSelector((state:RootState)=>state.counter)
+    const {value} = useSelector(({counter}:RootState)=>counter)
     console.log('====================================');
     console.log(value);
     console.log('====================================');

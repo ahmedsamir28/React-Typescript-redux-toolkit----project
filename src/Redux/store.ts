@@ -1,10 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { useDispatch, useSelector } from 'react-redux'
 import counterSlice from './Slice/authSlice'
+import foodsSlice  from './Slice/foodsSlice'
+import productsSlice  from './Slice/productsSlice'
 
 export const store = configureStore({
     reducer: {
-        counter:counterSlice
+        counter:counterSlice,
+        foods:foodsSlice,
+        products:productsSlice
     },
 })
 
