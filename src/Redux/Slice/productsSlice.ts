@@ -1,40 +1,58 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
-import type { IData } from '../../Interface/Index'
-import axiosInstance from '../../Config/AxiosConfig'
-
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import type { IData } from '../../Interface/Index';
+import axiosInstance from '../../Config/AxiosConfig';
+import { RootState } from '../store';
 
 // Define a type for the slice state
-interface productsState {
-    productsList: IData[]
+interface ProductsState {
+    loading: boolean;
+    data: IData[];
+    error: string | null;
 }
+
 // Define the initial state using that type
-const initialState: productsState = {
-    productsList: [],
-}
+const initialState: ProductsState = {
+    loading: true,
+    data: [],
+    error: null,
+};
 
-const getProductsList = createAsyncThunk("products/getProductsList",async(_, thunkAPI)=>{
-    const {rejectWithValue} = thunkAPI
-    //** get Request
-    try{
-        const {data} =  await axiosInstance.get("/products?limit=10&skip=10&select=title,price,thumbnail")
-        console.log(data);
-    }catch (error){
-        rejectWithValue(error)
+// Create async thunk for fetching products list
+export const getProductsList = createAsyncThunk('products/getProductsList',async (_, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+        try {
+            const {data} = await axiosInstance.get('/products?limit=10&skip=10&select=title,description,price,thumbnail');
+            return data;
+        } catch (error) {
+            console.error('API error:', error);
+            return rejectWithValue(error);
+        }
     }
-})
-export const productsSlice = createSlice({
-    name: "products",
-    // `createSlice` will infer the state type from the `initialState` argument
+);
+
+const productsSlice = createSlice({
+    name: 'products',
     initialState,
-    reducers: {
-        // Use the PayloadAction type to declare the contents of `action.payload`
-
+    reducers: {},
+    extraReducers: (builder) => {
+        builder
+            .addCase(getProductsList.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(getProductsList.fulfilled, (state, action: PayloadAction<IData[]>) => {
+                state.loading = false;
+                state.data = action.payload;
+                console.log('Fulfilled action payload:', action.payload);
+            })
+            .addCase(getProductsList.rejected, (state, action) => {
+                state.loading = false;
+                state.data = [];
+                state.error = action.payload as string;
+                console.error('Rejected action payload:', action.payload);
+            });
     },
-})
+});
 
-// export const { incrementByAmount } = counterSlice.actions
-
-// Other code such as selectors can use the imported `RootState` type
-
-export default productsSlice.reducer
+export const productsSelector = ({products} : RootState)=> products
+export default productsSlice.reducer;

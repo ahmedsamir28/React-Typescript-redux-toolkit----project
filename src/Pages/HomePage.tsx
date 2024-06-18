@@ -1,30 +1,63 @@
-import { useSelector } from "react-redux"
+// import { useSelector } from "react-redux"
 import ProductCard from "../Components/Product/ProductCard"
+import { Product } from "../Interface/Index"
+import { useGetProductsQuery } from "../Redux/Query/productsSlice"
 import Button from "../UI-items/Button"
 import Image from "../UI-items/Image"
 import Landing from "../Utils/Landing"
-import { RootState } from "../Redux/store"
+// import { useAppDispatch } from "../Redux/store"
+// import { useEffect } from "react"
+// import { getProductsList } from "../Redux/Slice/productsSlice"
 
 
 
 const HomePage = () => {
-    const {value} = useSelector(({counter}:RootState)=>counter)
-    console.log('====================================');
-    console.log(value);
-    console.log('====================================');
+    // const {value} = useSelector(({counter}:RootState)=>counter)
+    // const dispatch = useAppDispatch()
+
+    // useEffect(() => {
+    //     dispatch(getProductsList())
+    // }, [dispatch])
+
+    // Use the query hook
+    const { data, error,isError ,isLoading } = useGetProductsQuery();
+    
+
+    if (isLoading) {
+        console.log('Loading...');
+    } else if (error) {
+        console.error('Error:', error);
+    } else {
+        console.log('Data:', data.data);
+        if (data && data.data) {
+            console.log('Products:', data.data);
+        } else {
+            console.log('No products found in data.');
+        }
+    }
+
 
     return (
         <>
             <Landing />
             <div className="container grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3 p-2 m-5 rounded-md">
+            {isLoading && <h1>Loading...</h1>}
+                {!isLoading && isError ? <p>Error: there is no data</p> : null}
+
+                {!isLoading && !isError && data && data.data.map((product: Product) => (
+                    <div className="">
+                        <ProductCard  key={product.id} product={product} />
+                    </div>
+                ))}
+                
+                {/* <ProductCard />
                 <ProductCard />
                 <ProductCard />
                 <ProductCard />
                 <ProductCard />
                 <ProductCard />
                 <ProductCard />
-                <ProductCard />
-                <ProductCard />
+                <ProductCard /> */}
             </div>
 
             <div className="mb-16 mt-10 ">
