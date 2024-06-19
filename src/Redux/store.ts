@@ -3,18 +3,18 @@ import { useDispatch, useSelector } from 'react-redux'
 import counterSlice from './Slice/authSlice'
 import foodsSlice  from './Slice/foodsSlice'
 import productsReducer from './Slice/productsSlice'
-import { productsSlice } from './Query/productsSlice'
+import { dataSlice } from './Query/dataSlice'
 
 export const store = configureStore({
     reducer: {
         counter:counterSlice,
         foods:foodsSlice,
         products:productsReducer,
-        [productsSlice.reducerPath]: productsSlice.reducer,
+        [dataSlice.reducerPath]: dataSlice.reducer,
 
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(productsSlice.middleware),
+        getDefaultMiddleware().concat(dataSlice.middleware),
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

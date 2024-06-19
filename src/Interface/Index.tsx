@@ -31,28 +31,28 @@ export interface IErrorResponse {
     };
 }
 
+// export interface Data {
+//     description:string
+//     id: number;
+//     price: number;
+//     thumbnail: string;
+//     title: string;
+// }
+
+// export interface IProduct {
+//     id: number;
+//     title: string;
+//     price: number;
+//     description: string;
+//     category: string;
+//     image: string;
+//     rating: {
+//         rate: number;
+//         count: number;
+//     };
+// }
+
 export interface IData {
-    description:string
-    id: number;
-    price: number;
-    thumbnail: string;
-    title: string;
-}
-
-export interface IProduct {
-    id: number;
-    title: string;
-    price: number;
-    description: string;
-    category: string;
-    image: string;
-    rating: {
-        rate: number;
-        count: number;
-    };
-}
-
-export interface Product {
     id: number;
     attributes: {
         title: string;
@@ -116,7 +116,7 @@ export interface Product {
                     url: string;
                     previewUrl: string | null;
                     provider: string;
-                    provider_metadata:  null;
+                    provider_metadata: null;
                     createdAt: string;
                     updatedAt: string;
                 };
@@ -135,3 +135,5 @@ export interface Product {
         };
     };
 }
+
+
