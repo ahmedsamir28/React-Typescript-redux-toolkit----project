@@ -1,13 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { useDispatch, useSelector } from 'react-redux'
-import counterSlice from './Slice/authSlice'
+import authSlice from './Slice/authSlice'
 import foodsSlice  from './Slice/foodsSlice'
 import productsReducer from './Slice/productsSlice'
 import { dataSlice } from './Query/dataSlice'
 
 export const store = configureStore({
     reducer: {
-        counter:counterSlice,
+        auth:authSlice,
         foods:foodsSlice,
         products:productsReducer,
         [dataSlice.reducerPath]: dataSlice.reducer,
