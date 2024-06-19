@@ -20,6 +20,9 @@ const NavBar = () => {
                             Register
                         </Button>                    
                     </Link>
+                    <Button className="bg-orange-600 hover:bg-orange-700 font-medium  px-3 py-2">
+                            Logout
+                    </Button>      
                     <div className="dropdown dropdown-end">
                         <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
                             <div className="indicator">

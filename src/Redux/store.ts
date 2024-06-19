@@ -1,13 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { useDispatch, useSelector } from 'react-redux'
-import authSlice from './Slice/authSlice'
+import loginSlice from './Slice/loginSlice'
 import foodsSlice  from './Slice/foodsSlice'
 import productsReducer from './Slice/productsSlice'
 import { dataSlice } from './Query/dataSlice'
+import registerSlice from './Slice/registerSlice'
 
 export const store = configureStore({
     reducer: {
-        auth:authSlice,
+        login:loginSlice,
+        register:registerSlice,
         foods:foodsSlice,
         products:productsReducer,
         [dataSlice.reducerPath]: dataSlice.reducer,

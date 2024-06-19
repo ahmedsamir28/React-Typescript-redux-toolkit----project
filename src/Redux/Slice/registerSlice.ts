@@ -1,11 +1,10 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
-import axiosInstance from '../../Config/AxiosConfig';
 import { RootState } from '../store';
 import { UserJwtData } from '../../Interface/Index';
+import { createSlice } from '@reduxjs/toolkit';
+import { login, register } from '../action';
 
 // Define a type for the slice state
-interface AuthState {
+interface registerState {
     loading: boolean;
     user: UserJwtData | null; // Replace 'any' with your user data type
     error: string | null;
@@ -15,26 +14,15 @@ interface AuthState {
 const user = localStorage.getItem('user');
 
 // Define the initial state using that type
-const initialState: AuthState = {
+const initialState: registerState = {
     loading: false,
     user: user ? JSON.parse(user) : null,
     error: null,
 };
-// Create async thunk for user login
-export const login = createAsyncThunk('auth/login', async (credentials: { identifier: string; password: string }, thunkAPI) => {
-    const { rejectWithValue } = thunkAPI;
-    try {
-        const response = await axiosInstance.post('/auth/local', credentials);
-        return response.data; // assuming the token is part of the response data
-    } catch (error) {
-        console.error('API error:', error);
-        return rejectWithValue(error);
-    }
-}
-);
 
-const authSlice = createSlice({
-    name: 'auth',
+
+const registerSlice = createSlice({
+    name: 'register',
     initialState,
     reducers: {
         logout: (state) => {
@@ -46,16 +34,16 @@ const authSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(login.pending, (state) => {
+            .addCase(register.pending, (state) => {
                 state.loading = true;
             })
-            .addCase(login.fulfilled, (state, action) => {
+            .addCase(register.fulfilled, (state, action) => {
                 state.loading = false;
                 state.user = action.payload; // assuming the user data is the response data
                 localStorage.setItem('user', JSON.stringify(action.payload));
                 console.log('Fulfilled action payload:', action.payload);
             })
-            .addCase(login.rejected, (state, action) => {
+            .addCase(register.rejected, (state, action) => {
                 state.loading = false;
                 state.user = null;
                 state.error = action.payload as string;
@@ -65,8 +53,8 @@ const authSlice = createSlice({
 });
 
 
-export const { logout } = authSlice.actions;
+export const { logout } = registerSlice.actions;
 
-export const authSelector = ({ auth }: RootState) => auth;
+export const authSelector = ({ register }: RootState) => register;
 
-export default authSlice.reducer;
+export default registerSlice.reducer;
