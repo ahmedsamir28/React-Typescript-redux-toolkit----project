@@ -1,7 +1,7 @@
 import { RootState } from '../store';
 import { UserJwtData } from '../../Interface/Index';
 import { createSlice } from '@reduxjs/toolkit';
-import { login, register } from '../action';
+import { authRegister } from '../action';
 
 // Define a type for the slice state
 interface registerState {
@@ -10,13 +10,12 @@ interface registerState {
     error: string | null;
 }
 
-// Get user data from local storage if it exists
-const user = localStorage.getItem('user');
+
 
 // Define the initial state using that type
 const initialState: registerState = {
     loading: false,
-    user: user ? JSON.parse(user) : null,
+    user: null,
     error: null,
 };
 
@@ -25,25 +24,26 @@ const registerSlice = createSlice({
     name: 'register',
     initialState,
     reducers: {
-        logout: (state) => {
-            state.user = null;
-            localStorage.removeItem('user');
-            state.loading = false;
-            state.error = null;
-        },
+        // logout: (state) => {
+        //     state.user = null;
+        //     state.loading = false;
+        //     state.error = null;
+        // },
     },
     extraReducers: (builder) => {
         builder
-            .addCase(register.pending, (state) => {
+            .addCase(authRegister.pending, (state) => {
                 state.loading = true;
+                state.error = null;
+
             })
-            .addCase(register.fulfilled, (state, action) => {
+            .addCase(authRegister.fulfilled, (state, action) => {
                 state.loading = false;
                 state.user = action.payload; // assuming the user data is the response data
-                localStorage.setItem('user', JSON.stringify(action.payload));
+                state.error = null;
                 console.log('Fulfilled action payload:', action.payload);
             })
-            .addCase(register.rejected, (state, action) => {
+            .addCase(authRegister.rejected, (state, action) => {
                 state.loading = false;
                 state.user = null;
                 state.error = action.payload as string;
@@ -53,7 +53,7 @@ const registerSlice = createSlice({
 });
 
 
-export const { logout } = registerSlice.actions;
+// export const { logout } = registerSlice.actions;
 
 export const authSelector = ({ register }: RootState) => register;
 

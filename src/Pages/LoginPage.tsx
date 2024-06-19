@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "../validation";
 import { LOGIN_FORM } from "../data";
 import InputErrorMessage from "../UI-items/InputErrorMessage";
-import { login } from "../Redux/action";
+import { authLogin } from "../Redux/action";
 import { RootState, useAppDispatch } from "../Redux/store";
 import { useSelector } from "react-redux";
 import toast, { Toaster } from "react-hot-toast";
@@ -44,7 +44,7 @@ const LoginPage = () => {
     });
     const onSubmit: SubmitHandler<IFormInput> = (data) => {
         console.log("DATA", data);
-        dispatch(login(data));
+        dispatch(authLogin(data));
     }
 
     const renderLoginForm = LOGIN_FORM.map(({ name, placeholder, type, validation }, idx) => {

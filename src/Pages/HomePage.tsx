@@ -5,19 +5,10 @@ import { useGetDataQuery } from "../Redux/Query/dataSlice"
 import Button from "../UI-items/Button"
 import Image from "../UI-items/Image"
 import Landing from "../Utils/Landing"
-// import { useAppDispatch } from "../Redux/store"
-// import { useEffect } from "react"
-// import { getProductsList } from "../Redux/Slice/productsSlice"
 
 
 
 const HomePage = () => {
-    // const {value} = useSelector(({counter}:RootState)=>counter)
-    // const dispatch = useAppDispatch()
-
-    // useEffect(() => {
-    //     dispatch(getProductsList())
-    // }, [dispatch])
 
     // Use the query hook
     const { data,isError ,isLoading } = useGetDataQuery();

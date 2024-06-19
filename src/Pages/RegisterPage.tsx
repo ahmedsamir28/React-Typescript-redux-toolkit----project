@@ -5,6 +5,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import InputErrorMessage from "../UI-items/InputErrorMessage";
 import { registerSchema } from "../validation";
 import { REGISTER_FORM } from "../data";
+import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "../Redux/store";
+import { authRegister } from "../Redux/action";
+import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 interface IFormInput {
     username: string;
@@ -13,11 +18,41 @@ interface IFormInput {
 }
 
 const RegisterPage = () => {
+    const navigate = useNavigate();
+
+    const { user , error} = useSelector(({ register }: RootState) => register)
+    const dispatch = useAppDispatch()
+
+    console.log(error);
+    
+
+    if (user ) {
+        console.log('User Data:', user);
+        // Example of using toast notification upon successful login
+        toast.success(
+            "You will navigate to the login page after 2 seconds to login.",
+            {
+                position: "bottom-center",
+                duration: 1500,
+                style: {
+                    backgroundColor: "black",
+                    color: "white",
+                    width: "fit-content",
+                },
+            }
+        );
+
+        setTimeout(() => {
+            navigate("/login");
+        }, 2000);
+    }
+
     const { register, handleSubmit, formState: { errors }, } = useForm<IFormInput>({
         resolver: yupResolver(registerSchema),
     });
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
         console.log("DATA", data);
+        dispatch(authRegister(data))
     }
 
     const renderLoginForm = REGISTER_FORM.map(({ name, placeholder, type, validation }, idx) => {
@@ -49,6 +84,7 @@ const RegisterPage = () => {
                     Login
                 </Button>
             </form>
+            <div><Toaster/></div>
         </div>
     )
 }

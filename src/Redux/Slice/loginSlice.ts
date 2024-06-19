@@ -1,7 +1,7 @@
 import { RootState } from '../store';
 import { UserJwtData } from '../../Interface/Index';
 import { createSlice } from '@reduxjs/toolkit';
-import { login } from '../action';
+import { authLogin } from '../action';
 
 // Define a type for the slice state
 interface loginState {
@@ -34,16 +34,16 @@ const loginSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(login.pending, (state) => {
+            .addCase(authLogin.pending, (state) => {
                 state.loading = true;
             })
-            .addCase(login.fulfilled, (state, action) => {
+            .addCase(authLogin.fulfilled, (state, action) => {
                 state.loading = false;
                 state.user = action.payload; // assuming the user data is the response data
                 localStorage.setItem('user', JSON.stringify(action.payload));
                 console.log('Fulfilled action payload:', action.payload);
             })
-            .addCase(login.rejected, (state, action) => {
+            .addCase(authLogin.rejected, (state, action) => {
                 state.loading = false;
                 state.user = null;
                 state.error = action.payload as string;
