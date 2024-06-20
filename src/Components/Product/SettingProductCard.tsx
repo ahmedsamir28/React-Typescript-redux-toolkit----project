@@ -9,7 +9,7 @@ interface dataProps {
     isLoading: boolean,
 }
 
-const ProductCard = ({ data, isLoading }: dataProps) => {
+const SettingProductCard = ({ data, isLoading }: dataProps) => {
 
     return (
         <div>
@@ -54,4 +54,4 @@ const ProductCard = ({ data, isLoading }: dataProps) => {
     )
 }
 
-export default ProductCard
+export default SettingProductCard

@@ -10,6 +10,7 @@ import { authLogin } from "../Redux/action";
 import { RootState, useAppDispatch } from "../Redux/store";
 import { useSelector } from "react-redux";
 import toast, { Toaster } from "react-hot-toast";
+import { AxiosError } from "axios";
 
 interface IFormInput {
     identifier: string;
@@ -17,11 +18,10 @@ interface IFormInput {
 }
 
 const LoginPage = () => {
-    const { user } = useSelector(({ login }: RootState) => login)
+    const { user , error} = useSelector(({ login }: RootState) => login)
     const dispatch = useAppDispatch()
-
+    
     if (user) {
-        console.log('User Data:', user);
         // Example of using toast notification upon successful login
         toast.success("You will navigate to the home page after 2 seconds.", {
             position: "bottom-center",
@@ -37,13 +37,42 @@ const LoginPage = () => {
         }, 2000);
     }
 
+    if (error && error instanceof AxiosError) {
+        if (error.response && error.response.status === 400) {
+            toast.error(
+                `${error.response.data.error.message}`,
+                {
+                    position: "bottom-center",
+                    duration: 1500,
+                    style: {
+                        backgroundColor: "red",
+                        color: "white",
+                        width: "fit-content",
+                    },
+                }
+            );
+        } else {
+            toast.error(
+                "An unexpected error occurred. Please try again later.",
+                {
+                    position: "bottom-center",
+                    duration: 1500,
+                    style: {
+                        backgroundColor: "red",
+                        color: "white",
+                        width: "fit-content",
+                    },
+                }
+            );
+        }
+    }
+
 
 
     const { register, handleSubmit, formState: { errors }, } = useForm<IFormInput>({
         resolver: yupResolver(loginSchema),
     });
     const onSubmit: SubmitHandler<IFormInput> = (data) => {
-        console.log("DATA", data);
         dispatch(authLogin(data));
     }
 

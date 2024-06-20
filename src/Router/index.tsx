@@ -8,10 +8,12 @@ import LoginPage from "../Pages/LoginPage";
 import PageDetails from "../Pages/PageDetails";
 import CartPage from "../Pages/CartPage";
 import RegisterPage from "../Pages/RegisterPage";
+import ProductsPage from "../Pages/Setting/ProductsPage";
+import AddProduct from "../Pages/Setting/AddProduct";
+import AddCategory from "../Pages/Setting/AddCategory";
 
 const storageKey = "user";
 const userDataString = localStorage.getItem(storageKey);
-
 const userData = userDataString ? JSON.parse(userDataString) : null;
 
 const router = createBrowserRouter(
@@ -48,6 +50,36 @@ const router = createBrowserRouter(
             data={userData}
           >
             <CartPage />
+          </ProtectedRoute>
+        } />
+
+        <Route path="all-products" element={
+          <ProtectedRoute
+            isAllowed={userData?.jwt}
+            redirectPath="/login"
+            data={userData}
+          >
+            <ProductsPage />
+          </ProtectedRoute>
+        } />
+
+        <Route path="add-product" element={
+          <ProtectedRoute
+            isAllowed={userData?.jwt}
+            redirectPath="/login"
+            data={userData}
+          >
+            <AddProduct />
+          </ProtectedRoute>
+        } />
+
+        <Route path="add-category" element={
+          <ProtectedRoute
+            isAllowed={userData?.jwt}
+            redirectPath="/login"
+            data={userData}
+          >
+            <AddCategory />
           </ProtectedRoute>
         } />
 

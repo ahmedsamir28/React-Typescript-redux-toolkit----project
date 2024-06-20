@@ -8,7 +8,6 @@ interface dataProps {
 }
 
 const DetailsCard = ({ data, isLoading }: dataProps) => {
-    console.log("aaa", data);
 
     return (
 

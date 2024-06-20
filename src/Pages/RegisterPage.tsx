@@ -10,6 +10,7 @@ import { RootState, useAppDispatch } from "../Redux/store";
 import { authRegister } from "../Redux/action";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { AxiosError } from "axios";
 
 interface IFormInput {
     username: string;
@@ -19,15 +20,10 @@ interface IFormInput {
 
 const RegisterPage = () => {
     const navigate = useNavigate();
-
-    const { user , error} = useSelector(({ register }: RootState) => register)
+    const { user, error } = useSelector(({ register }: RootState) => register)
     const dispatch = useAppDispatch()
 
-    console.log(error);
-    
-
-    if (user ) {
-        console.log('User Data:', user);
+    if (user) {
         // Example of using toast notification upon successful login
         toast.success(
             "You will navigate to the login page after 2 seconds to login.",
@@ -47,11 +43,40 @@ const RegisterPage = () => {
         }, 2000);
     }
 
+    if (error && error instanceof AxiosError) {
+        if (error.response && error.response.status === 400) {
+            toast.error(
+                `${error.response.data.error.message}`,
+                {
+                    position: "bottom-center",
+                    duration: 1500,
+                    style: {
+                        backgroundColor: "red",
+                        color: "white",
+                        width: "fit-content",
+                    },
+                }
+            );
+        } else {
+            toast.error(
+                "An unexpected error occurred. Please try again later.",
+                {
+                    position: "bottom-center",
+                    duration: 1500,
+                    style: {
+                        backgroundColor: "red",
+                        color: "white",
+                        width: "fit-content",
+                    },
+                }
+            );
+        }
+    }
+
     const { register, handleSubmit, formState: { errors }, } = useForm<IFormInput>({
         resolver: yupResolver(registerSchema),
     });
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-        console.log("DATA", data);
         dispatch(authRegister(data))
     }
 
@@ -72,7 +97,7 @@ const RegisterPage = () => {
     return (
         <div className="max-w-md my-20 mx-auto">
             <h2 className="text-center mb-4 text-3xl font-semibold">
-                Login to get access!
+                Register to get access!
             </h2>
             <form onSubmit={handleSubmit(onSubmit)}
                 className="space-y-4  bg-base-200 border-2 border-base-300  rounded-lg p-5" >
@@ -81,10 +106,10 @@ const RegisterPage = () => {
                 </div>
 
                 <Button className="bg-warning hover:bg-amber-500 font-medium capitalize px-3 py-2" width="w-full">
-                    Login
+                    Register
                 </Button>
             </form>
-            <div><Toaster/></div>
+            <div><Toaster /></div>
         </div>
     )
 }

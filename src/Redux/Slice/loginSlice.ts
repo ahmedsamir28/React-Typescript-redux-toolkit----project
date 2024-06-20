@@ -24,14 +24,7 @@ const initialState: loginState = {
 const loginSlice = createSlice({
     name: 'login',
     initialState,
-    reducers: {
-        logout: (state) => {
-            state.user = null;
-            localStorage.removeItem('user');
-            state.loading = false;
-            state.error = null;
-        },
-    },
+    reducers: {},
     extraReducers: (builder) => {
         builder
             .addCase(authLogin.pending, (state) => {

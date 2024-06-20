@@ -1,8 +1,26 @@
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import Button from "../UI-items/Button"
+import { useAppDispatch } from "../Redux/store";
+import { logout } from "../Redux/Slice/loginSlice";
 
 
 const NavBar = () => {
+    const { pathname } = useLocation();
+    console.log("path", pathname);
+
+    const storageKey = "user";
+    const userDataString = localStorage.getItem(storageKey);
+    const userData = userDataString ? JSON.parse(userDataString) : null;
+
+    console.log(userData);
+
+
+    const onLogout = () => {
+        localStorage.removeItem(storageKey);
+        setTimeout(() => {
+            location.replace(pathname);
+        }, 1000);
+    };
     return (
         <div className=" shadow-xl  bg-base-300 ">
             <div className="container navbar">
@@ -10,19 +28,38 @@ const NavBar = () => {
                     <Link to="/" className="btn btn-ghost text-xl">daisyUI</Link>
                 </div>
                 <div className="flex-none">
-                    <Link className="px-3 py-2" to="/login">
-                        <Button className="bg-warning hover:bg-amber-500 font-medium  px-3 py-2">
-                            Login
-                        </Button>                    
-                    </Link>
-                    <Link className="px-3 py-2" to="/register">
-                        <Button className="bg-warning hover:bg-amber-500 font-medium  px-3 py-2">
-                            Register
-                        </Button>                    
-                    </Link>
-                    <Button className="bg-orange-600 hover:bg-orange-700 font-medium  px-3 py-2">
-                            Logout
-                    </Button>      
+
+                    {userData ? (<>
+                        <div className="dropdown dropdown-end">
+                            <div tabIndex={0} role="button" className="">
+                                <div className="bg-base-100 hover:bg-base-200 font-medium  px-3 py-2  rounded-lg  duration-200 ">{userData.user.username}</div>
+                            </div>
+                            <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                                <li>
+                                    <a className="justify-between">
+                                        Profile
+                                        <span className="badge">New</span>
+                                    </a>
+                                </li>
+                                <li><Link to="/all-products">Settings</Link></li>
+                                <li onClick={onLogout}><a>Logout</a></li>
+                            </ul>
+                        </div>
+                    </>) : (<>
+                        <Link className="px-3 py-2" to="/login">
+                            <Button className="bg-warning hover:bg-amber-500 font-medium  px-3 py-2">
+                                Login
+                            </Button>
+                        </Link>
+                        <Link className="px-3 py-2" to="/register">
+                            <Button className="bg-warning hover:bg-amber-500 font-medium  px-3 py-2">
+                                Register
+                            </Button>
+                        </Link>
+                    </>)}
+
+
+
                     <div className="dropdown dropdown-end">
                         <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
                             <div className="indicator">
@@ -41,23 +78,7 @@ const NavBar = () => {
                         </div>
                     </div>
 
-                    <div className="dropdown dropdown-end">
-                        <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                            <div className="w-10 rounded-full">
-                                <img alt="Tailwind CSS Navbar component" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-                            </div>
-                        </div>
-                        <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                            <li>
-                                <a className="justify-between">
-                                    Profile
-                                    <span className="badge">New</span>
-                                </a>
-                            </li>
-                            <li><a>Settings</a></li>
-                            <li><a>Logout</a></li>
-                        </ul>
-                    </div>
+
 
                 </div>
             </div>
