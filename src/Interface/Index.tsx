@@ -136,6 +136,19 @@ export interface IData {
     };
 }
 
+export interface ICategory {
+    id: number;
+    attributes: {
+        title: string;
+        createdAt: string;
+        updatedAt: string;
+        publishedAt: string;
+        products: {
+            data: any[]; // Replace `any` with the specific type if known
+        };
+    };
+}
+
 
 export interface UserJwtData {
     jwt: string;

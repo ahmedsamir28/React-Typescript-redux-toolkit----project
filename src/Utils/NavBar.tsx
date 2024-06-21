@@ -1,19 +1,12 @@
 import { Link, useLocation } from "react-router-dom"
 import Button from "../UI-items/Button"
-import { useAppDispatch } from "../Redux/store";
-import { logout } from "../Redux/Slice/loginSlice";
-
 
 const NavBar = () => {
     const { pathname } = useLocation();
-    console.log("path", pathname);
 
     const storageKey = "user";
     const userDataString = localStorage.getItem(storageKey);
     const userData = userDataString ? JSON.parse(userDataString) : null;
-
-    console.log(userData);
-
 
     const onLogout = () => {
         localStorage.removeItem(storageKey);

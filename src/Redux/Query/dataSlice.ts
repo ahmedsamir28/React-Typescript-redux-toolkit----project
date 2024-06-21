@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const dataSlice = createApi({
-    reducerPath: 'api',
+    reducerPath: 'dataApi',
     tagTypes: ['Data'],
     baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:1337' }),
     endpoints: (builder) => ({

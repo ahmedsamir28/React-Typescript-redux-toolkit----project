@@ -5,6 +5,7 @@ import foodsSlice  from './Slice/foodsSlice'
 import productsReducer from './Slice/productsSlice'
 import { dataSlice } from './Query/dataSlice'
 import registerSlice from './Slice/registerSlice'
+import { categoriesSlice }  from './Query/categoriesSlice'
 
 export const store = configureStore({
     reducer: {
@@ -13,10 +14,11 @@ export const store = configureStore({
         foods:foodsSlice,
         products:productsReducer,
         [dataSlice.reducerPath]: dataSlice.reducer,
+        [categoriesSlice.reducerPath]: categoriesSlice.reducer
 
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(dataSlice.middleware),
+        getDefaultMiddleware().concat(dataSlice.middleware,categoriesSlice.middleware),
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
