@@ -1,4 +1,5 @@
 // import { useSelector } from "react-redux"
+import { useEffect } from "react"
 import ProductCard from "../Components/Product/ProductCard"
 import { IData } from "../Interface/Index"
 import { useGetDataQuery } from "../Redux/Query/dataSlice"
@@ -9,11 +10,12 @@ import Landing from "../Utils/Landing"
 
 
 const HomePage = () => {
-
     // Use the query hook
     const { data,isError ,isLoading } = useGetDataQuery();
     
-
+    useEffect(() => {
+        document.title = "Home Page";
+      }, []);
     // if (isLoading) {
     //     console.log('Loading...');
     // } else if (error) {

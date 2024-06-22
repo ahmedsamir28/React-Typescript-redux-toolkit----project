@@ -41,7 +41,7 @@ const DetailsCard = ({ data, isLoading }: dataProps) => {
                         {/* Product Details */}
                         <div className="mt-4 md:mt-0 flex flex-col items-start justify-between gap-3">
                             <h1 className="text-2xl font-bold">{data.data.attributes.title}</h1>
-                            <h5>{data.data.attributes.category.data.attributes.title}</h5>
+                            <h5>{data.data.attributes.Category.data.attributes.title}</h5>
                             <p className="mt-2 text-gray-600">
                                 {data.data.attributes.description}
                             </p>

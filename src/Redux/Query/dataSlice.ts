@@ -16,7 +16,6 @@ const baseQuery = fetchBaseQuery({
     },
 });
 
-
 export const dataSlice = createApi({
     reducerPath: 'dataApi',
     tagTypes: ['Data'],
@@ -34,7 +33,7 @@ export const dataSlice = createApi({
         }),
         postData: builder.mutation({
             query: (formData: FormData) => ({
-                url: '/products',
+                url: '/api/products',
                 method: 'POST',
                 body: formData,
             }),

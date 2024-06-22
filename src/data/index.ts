@@ -57,20 +57,20 @@ export const formInputsList: IFormInput[] = [
     name: "title",
     label: "Title",
     type: "text",
-    placeholder :""
+    placeholder :"Name of the meal"
   },
   {
     id: "description",
     name: "description",
     label: "Description",
     type: "text",
-    placeholder :""
+    placeholder :"Description of the meal"
   },
   {
     id: "price",
     name: "price",
     label: "Price",
     type: "number",
-    placeholder :""
+    placeholder :"Price of the meal"
   },
 ]
