@@ -46,7 +46,6 @@ const loginSlice = createSlice({
 });
 
 
-export const { logout } = loginSlice.actions;
 
 export const authSelector = ({ login }: RootState) => login;
 

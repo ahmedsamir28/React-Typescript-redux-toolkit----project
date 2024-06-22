@@ -31,6 +31,15 @@ export interface IErrorResponse {
     };
 }
 
+
+export interface IFormInput {
+    id: string;
+    name: 'title' | 'description' | 'image' | 'price';
+    label: string;
+    type: string;
+    placeholder:string
+}
+
 // export interface Data {
 //     description:string
 //     id: number;

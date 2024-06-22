@@ -1,4 +1,4 @@
-import { ILoginInput, IRegisterInput } from "../Interface/Index";
+import { IFormInput, ILoginInput, IRegisterInput } from "../Interface/Index";
 
 export const REGISTER_FORM: IRegisterInput[] = [
   {
@@ -50,3 +50,27 @@ export const LOGIN_FORM: ILoginInput[] = [
     },
   },
 ];
+
+export const formInputsList: IFormInput[] = [
+  {
+    id: "title",
+    name: "title",
+    label: "Title",
+    type: "text",
+    placeholder :""
+  },
+  {
+    id: "description",
+    name: "description",
+    label: "Description",
+    type: "text",
+    placeholder :""
+  },
+  {
+    id: "price",
+    name: "price",
+    label: "Price",
+    type: "number",
+    placeholder :""
+  },
+]

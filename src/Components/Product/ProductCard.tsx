@@ -25,7 +25,7 @@ const ProductCard = ({ data, isLoading }: dataProps) => {
                         <Image
                             url={data.attributes.thumbnail.data.attributes.formats.medium.url}
                             alt="food"
-                            className="w-full lg:object-cover rounded-t-lg"
+                            className="w-full h-96 lg:object-cover rounded-t-lg"
                         />
 
                     </Link>
