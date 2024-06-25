@@ -5,7 +5,7 @@ import { useGetCategoriesQuery } from "../../Redux/Query/categoriesSlice"
 import Button from "../../UI-items/Button"
 import Header from "../../UI-items/Header"
 import PageDescription from "../../UI-items/PageDescription"
-import SideMenu from "../../Utils/SideMenu"
+import SideMenu from "../../Layouts/SideMenu"
 import avatar from '../../assets/avatar.png'
 import Input from "../../UI-items/Input"
 import { formInputsList } from "../../data"

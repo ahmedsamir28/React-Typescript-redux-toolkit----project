@@ -136,6 +136,7 @@ export interface IData {
             };
         };
     };
+    quantity:number
 }
 
 export interface ICategory {

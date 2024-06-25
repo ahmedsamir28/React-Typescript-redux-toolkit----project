@@ -19,6 +19,8 @@ const baseQuery = fetchBaseQuery({
 export const dataSlice = createApi({
     reducerPath: 'dataApi',
     tagTypes: ['Data'],
+    refetchOnReconnect:true,
+    refetchOnMountOrArgChange:true,
     baseQuery: baseQuery,
     endpoints: (builder) => ({
         getData: builder.query({
@@ -38,7 +40,13 @@ export const dataSlice = createApi({
                 body: formData,
             }),
         }),
+        deleteData: builder.mutation({
+            query: (id) => ({
+                url: `/api/products/${id}`,
+                method: 'DELETE',
+            }),
+        }),
     }),
 });
 
-export const { useGetDataQuery, useGetDataByIdQuery ,usePostDataMutation} = dataSlice;
+export const { useGetDataQuery, useGetDataByIdQuery ,usePostDataMutation ,useDeleteDataMutation} = dataSlice;

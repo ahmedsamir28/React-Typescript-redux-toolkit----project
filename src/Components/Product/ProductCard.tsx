@@ -3,6 +3,9 @@ import Button from "../../UI-items/Button"
 import Image from "../../UI-items/Image"
 import { IData } from "../../Interface/Index"
 import { descriptionSlicer } from "../../UI-items/description"
+import { useAppDispatch } from "../../Redux/store"
+import { addToCart } from "../../Redux/Slice/cartSlice"
+import { Toaster } from "react-hot-toast"
 
 interface dataProps {
     data: IData,
@@ -10,6 +13,12 @@ interface dataProps {
 }
 
 const ProductCard = ({ data, isLoading }: dataProps) => {
+    const dispatch = useAppDispatch();
+
+
+    const addToCartHandler = () => { 
+        dispatch(addToCart(data))
+    }
 
     return (
         <div>
@@ -41,7 +50,9 @@ const ProductCard = ({ data, isLoading }: dataProps) => {
                                 $ {data.attributes.price}
                             </span>
                             <div className="card-actions justify-end">
-                                <Button className="bg-warning hover:bg-amber-500 font-medium capitalize px-3 py-2">
+                                <Button
+                                    onClick={addToCartHandler}
+                                    className="bg-warning hover:bg-amber-500 font-medium capitalize px-3 py-2">
                                     buy now
                                 </Button>
                             </div>
@@ -49,6 +60,7 @@ const ProductCard = ({ data, isLoading }: dataProps) => {
                     </div>
                 </div>)
             }
+            <Toaster />
 
         </div>
     )

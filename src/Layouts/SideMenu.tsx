@@ -12,7 +12,7 @@ const SideMenu = () => {
                 <h4 className="mt-2 text-sm">gamil@gmail.com</h4>
             </div>
             <nav className="flex flex-col flex-grow gap-2">
-                <Link to="/all-products" className="flex items-center py-2 px-4 bg-warning text-gray-900 rounded-md mb-1 ">
+                <Link to="/dashboard" className="flex items-center py-2 px-4 bg-warning text-gray-900 rounded-md mb-1 ">
                     <span className="material-icons"><i className="fa-solid fa-layer-group"></i></span>
                     <span className="ml-2 capitalize "> products manage</span>
                 </Link>

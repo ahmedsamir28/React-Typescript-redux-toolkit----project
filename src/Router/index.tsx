@@ -8,9 +8,9 @@ import LoginPage from "../Pages/LoginPage";
 import PageDetails from "../Pages/PageDetails";
 import CartPage from "../Pages/CartPage";
 import RegisterPage from "../Pages/RegisterPage";
-import ProductsPage from "../Pages/Setting/ProductsPage";
-import AddProduct from "../Pages/Setting/AddProduct";
-import AddCategory from "../Pages/Setting/AddCategory";
+import ProductsDashBoard from "../Pages/DashBoard/ProductsDashBoard";
+import AddProduct from "../Pages/DashBoard/AddProduct";
+import AddCategory from "../Pages/DashBoard/AddCategory";
 
 const storageKey = "user";
 const userDataString = localStorage.getItem(storageKey);
@@ -53,13 +53,13 @@ const router = createBrowserRouter(
           </ProtectedRoute>
         } />
 
-        <Route path="all-products" element={
+        <Route path="dashboard" element={
           <ProtectedRoute
             isAllowed={userData?.jwt}
             redirectPath="/login"
             data={userData}
           >
-            <ProductsPage />
+            <ProductsDashBoard />
           </ProtectedRoute>
         } />
 

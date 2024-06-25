@@ -5,17 +5,17 @@ import { IData } from "../Interface/Index"
 import { useGetDataQuery } from "../Redux/Query/dataSlice"
 import Button from "../UI-items/Button"
 import Image from "../UI-items/Image"
-import Landing from "../Utils/Landing"
+import Landing from "../Layouts/Landing"
 
 
 
 const HomePage = () => {
     // Use the query hook
-    const { data,isError ,isLoading } = useGetDataQuery();
-    
+    const { data, isError, isLoading } = useGetDataQuery();
+
     useEffect(() => {
         document.title = "Home Page";
-      }, []);
+    }, []);
     // if (isLoading) {
     //     console.log('Loading...');
     // } else if (error) {
@@ -38,10 +38,10 @@ const HomePage = () => {
 
                 {!isLoading && !isError && data && data.data.map((data: IData) => (
                     <div className="">
-                        <ProductCard  key={data.id} data={data} isLoading={isLoading} />
+                        <ProductCard key={data.id} data={data} isLoading={isLoading} />
                     </div>
                 ))}
-                
+
             </div>
 
             <div className="mb-16 mt-10 ">
