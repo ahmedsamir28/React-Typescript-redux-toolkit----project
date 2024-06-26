@@ -118,14 +118,14 @@ const AddProduct = () => {
             <Input
                 type={input.type}
                 name={input.name}
-                value={product[input.name  as keyof IProduct]} 
+                value={product[input.name as keyof IProduct]}
                 id={input.id}
                 onChange={handleChange}
                 placeholder={input.placeholder}
             />
         </div>
     ));
-    
+
 
     return (
         <div className="flex items-start gap-5" style={{ minHeight: '800px' }}>

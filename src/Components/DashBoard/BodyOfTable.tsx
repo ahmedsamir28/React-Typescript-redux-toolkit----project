@@ -1,10 +1,14 @@
 import { useState, useEffect, FormEvent } from "react";
-import { IData } from "../../Interface/Index";
+import { ICategory, IData, IProduct } from "../../Interface/Index";
 import Modal from "../../UI-items/Modal";
 import Button from "../../UI-items/Button";
 import { Link } from "react-router-dom";
 import { useDeleteDataMutation } from "../../Redux/Query/dataSlice";
 import toast, { Toaster } from "react-hot-toast";
+import { formInputsList } from "../../data";
+import Input from "../../UI-items/Input";
+import { useGetCategoriesQuery } from "../../Redux/Query/categoriesSlice";
+import avatar from '../../assets/avatar.png';
 
 interface DataProps {
     data: IData;
@@ -13,8 +17,23 @@ interface DataProps {
 
 const BodyOfTable = ({ data, index }: DataProps) => {
     const [deleteData, { isLoading, isSuccess, isError }] = useDeleteDataMutation();
+    const { data: categoriesData, isError: categoriesError, isLoading: categoriesLoading } = useGetCategoriesQuery();
+
     const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
     const [isOpenEditModal, setIsOpenEditModal] = useState(false);
+
+    const defaultProduct: IProduct = {
+        title: '',
+        description: '',
+        price: 0,
+    };
+
+    const [productToEdit, setProductToEdit] = useState<IProduct>(defaultProduct)
+    const [Category, setCategory] = useState<string>('');
+
+    const onSelectCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setCategory(e.target.value);
+    };
 
     useEffect(() => {
         if (isSuccess) {
@@ -51,6 +70,20 @@ const BodyOfTable = ({ data, index }: DataProps) => {
     const removeProductHandler = (id: number) => {
         deleteData(id);
     };
+    const renderFormEditInputs = formInputsList.map(input => (
+        <div key={input.id} className="flex flex-col w-[700px]">
+            <label htmlFor={input.id} className="text-sm font-medium mb-2">
+                {input.label}
+            </label>
+            <Input
+                type={input.type}
+                name={input.name}
+                id={input.id}
+                className="w-96"
+                // onChange={handleChange}
+            />
+        </div>
+    ));
 
     return (
         <tr key={data.id} className="text-center border-b border-gray-700">
@@ -77,31 +110,41 @@ const BodyOfTable = ({ data, index }: DataProps) => {
                         <i className="fa-solid fa-trash-can"></i>
                     </Button>
                     <Button onClick={() => setIsOpenEditModal(true)} className="p-2 bg-blue-600 rounded hover:bg-blue-700">
-                            <i className="fa-solid fa-pencil"></i>
+                        <i className="fa-solid fa-pencil"></i>
                     </Button>
                 </div>
             </td>
 
 
-            <Modal isOpen={isOpenEditModal}  closeModal={() => setIsOpenEditModal(false)}title="Edit Product">
+            <Modal isOpen={isOpenEditModal} closeModal={() => setIsOpenEditModal(false)} title="Edit Product">
                 <form className='space-y-3' onSubmit={handleSubmitEdit}>
                     {/* {renderProductEditWithErrorMsg('edit-title', 'Title', 'title')}
                     {renderProductEditWithErrorMsg('edit-description', 'Description', 'description')}
                     {renderProductEditWithErrorMsg('edit-imageURL', 'Image URL', 'imageURL')}
                     {renderProductEditWithErrorMsg('edit-price', 'Price', 'price')} */}
 
-                    {/* <Select
-                        selected={productToEdit.category}
-                        setSelected={(value) => setProductToEdit({ ...productToEdit, category: value })}
-                    /> */}
-                    {/* <div className="flex items-center flex-wrap space-x-1">
-                        {selectedColors.map((color) => (
-                            <span key={color} className="p-1 mr-1 mb-1 text-xs rounded-md text-white" style={{ backgroundColor: color }}>
-                                {color}
-                            </span>
-                        ))}
-                    </div> */}
+                    <label htmlFor="upload-photo" className="capitalize text-sm font-medium mb-2">
+                        Product image
+                    </label>
+                    <input
+                        type="file"
+                        name="photo"
+                        id="upload-photo"
+                        className="file-input file-input-bordered file-input-warning w-96 "
+                        // onChange={onImageChange}
 
+                    />
+                    <div className="flex flex-col gap-5 items-start mt-5">
+                        {renderFormEditInputs}
+                        <div className="mt-5">
+                            <select className="select select-warning w-96" onChange={onSelectCategory} defaultValue="">
+                                <option disabled value="">Pick a category</option>
+                                {!categoriesLoading && !categoriesError && categoriesData && categoriesData.data.map((category: ICategory, index: number) => (
+                                    <option key={index} value={category.id}>{category.attributes.title}</option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
                     <div className="flex items-center space-x-3">
                         <Button className="bg-indigo-600 hover:bg-indigo-800">Submit</Button>
                         <Button type="button" onClick={() => setIsOpenEditModal(false)} className="bg-[#f5f5fa] hover:bg-gray-300 !text-black">Cancel</Button>
