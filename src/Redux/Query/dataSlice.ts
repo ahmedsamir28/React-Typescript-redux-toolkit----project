@@ -29,6 +29,7 @@ export const dataSlice = createApi({
                     url: '/api/products?populate=*'
                 }
             },
+            providesTags: ['Data'],
         }),
         getDataById: builder.query({
             query: (id) => `/api/products/${id}?populate=*`,
@@ -39,12 +40,16 @@ export const dataSlice = createApi({
                 method: 'POST',
                 body: formData,
             }),
+            invalidatesTags: ['Data'],
+
         }),
         deleteData: builder.mutation({
             query: (id) => ({
                 url: `/api/products/${id}`,
                 method: 'DELETE',
             }),
+            invalidatesTags: ['Data'],
+
         }),
     }),
 });

@@ -34,11 +34,11 @@ const cartSlice = createSlice({
         },
         clearCart: state => {
             state.cartProducts = []
-            toast.error("All products have been deleted from the shopping cart", {
+            toast("All products have been deleted from the shopping cart", {
                 position: "bottom-center",
                 duration: 1500,
                 style: {
-                    backgroundColor: "black",
+                    backgroundColor: "orange",
                     color: "white",
                     width: "fit-content",
                 },

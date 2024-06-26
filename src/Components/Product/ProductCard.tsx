@@ -32,7 +32,7 @@ const ProductCard = ({ data, isLoading }: dataProps) => {
                 </div>) : (<div className=" card  bg-base-200 shadow-xl  border-base-300 rounded-lg border-2">
                     <Link to={`/food/${data.id}`}>
                         <Image
-                            url={data.attributes.thumbnail.data.attributes.formats.medium.url}
+                            url={data.attributes.thumbnail.data?.attributes.formats.medium.url}
                             alt="food"
                             className="w-full h-96 lg:object-cover rounded-t-lg"
                         />
