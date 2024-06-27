@@ -43,6 +43,15 @@ export const dataSlice = createApi({
             invalidatesTags: ['Data'],
 
         }),
+        updateData: builder.mutation({
+            query: ({ id, formData }: { id: number, formData: FormData }) => ({
+                url: `/api/products/${id}`,
+                method: 'PUT',
+                body: formData,
+            }),
+            invalidatesTags: ['Data'],
+
+        }),
         deleteData: builder.mutation({
             query: (id) => ({
                 url: `/api/products/${id}`,
@@ -54,4 +63,4 @@ export const dataSlice = createApi({
     }),
 });
 
-export const { useGetDataQuery, useGetDataByIdQuery ,usePostDataMutation ,useDeleteDataMutation} = dataSlice;
+export const { useGetDataQuery, useGetDataByIdQuery ,usePostDataMutation ,useUpdateDataMutation,useDeleteDataMutation} = dataSlice;

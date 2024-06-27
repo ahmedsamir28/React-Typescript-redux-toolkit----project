@@ -70,7 +70,7 @@ const AddProduct = () => {
             Category
         }));
 
-        formData.append('files.thumbnail', selectedFile);
+        formData.append('d', selectedFile);
 
         try {
             await postData(formData).unwrap();

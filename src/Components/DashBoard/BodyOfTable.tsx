@@ -3,12 +3,11 @@ import { ICategory, IData, IProduct } from "../../Interface/Index";
 import Modal from "../../UI-items/Modal";
 import Button from "../../UI-items/Button";
 import { Link } from "react-router-dom";
-import { useDeleteDataMutation } from "../../Redux/Query/dataSlice";
+import { useDeleteDataMutation, useUpdateDataMutation } from "../../Redux/Query/dataSlice";
 import toast, { Toaster } from "react-hot-toast";
-import { formInputsList } from "../../data";
 import Input from "../../UI-items/Input";
 import { useGetCategoriesQuery } from "../../Redux/Query/categoriesSlice";
-import avatar from '../../assets/avatar.png';
+import { TProductName } from "../../types";
 
 interface DataProps {
     data: IData;
@@ -16,6 +15,7 @@ interface DataProps {
 }
 
 const BodyOfTable = ({ data, index }: DataProps) => {
+    const [putData, { isLoading: isPosting, isSuccess:updateIsSuccess }] = useUpdateDataMutation();
     const [deleteData, { isLoading, isSuccess, isError }] = useDeleteDataMutation();
     const { data: categoriesData, isError: categoriesError, isLoading: categoriesLoading } = useGetCategoriesQuery();
 
@@ -28,11 +28,20 @@ const BodyOfTable = ({ data, index }: DataProps) => {
         price: 0,
     };
 
-    const [productToEdit, setProductToEdit] = useState<IProduct>(defaultProduct)
-    const [Category, setCategory] = useState<string>('');
+    const [productToEdit, setProductToEdit] = useState<IProduct>(defaultProduct);
+    const [Category, setEditCategory] = useState<string>('');
 
+    const [selectedEditFile, setSelectedEditFile] = useState<File | null>(null);
+
+    const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files[0]) {
+            setSelectedEditFile(event.target.files[0]);
+        }
+    };
+
+    
     const onSelectCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setCategory(e.target.value);
+        setEditCategory(e.target.value);
     };
 
     useEffect(() => {
@@ -46,7 +55,7 @@ const BodyOfTable = ({ data, index }: DataProps) => {
                     width: "fit-content",
                 },
             });
-            setIsOpenConfirmModal(false); // Close the modal after a successful deletion
+            setIsOpenConfirmModal(false);
         } else if (isError) {
             toast.error("The product has not been deleted", {
                 position: "bottom-center",
@@ -60,30 +69,103 @@ const BodyOfTable = ({ data, index }: DataProps) => {
         }
     }, [isSuccess, isError]);
 
+    const openEditModal = () => {
+        setProductToEdit(data.attributes);
+        setIsOpenEditModal(true);
+    };
+
+    const handleChangeEdit = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setProductToEdit({
+            ...productToEdit,
+            [name]: value,
+        }
+        );
+    };
+
+
     const handleSubmitEdit = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        console.log('====================================');
-        console.log("edit products");
-        console.log('====================================');
-    }
+        e.preventDefault();
+        const { title, description, price } = productToEdit;
+        if (!title || !description || price <= 0 || !Category || !selectedEditFile) {
+            toast.error("Please complete all fields", {
+                position: "bottom-center",
+                duration: 1500,
+                style: {
+                    backgroundColor: "black",
+                    color: "white",
+                    width: "fit-content",
+                },
+            });
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('data', JSON.stringify({
+            title,
+            description,
+            price: price.toString(),
+            Category
+        }));
+
+        formData.append('files.thumbnail', selectedEditFile);
+
+        try {
+            await putData({id:data.id, formData}).unwrap();
+            toast.success("Product updated successfully!", {
+                position: "bottom-center",
+                duration: 1500,
+                style: {
+                    backgroundColor: "black",
+                    color: "white",
+                    width: "fit-content",
+                },
+            });
+            resetForm();
+            setIsOpenEditModal(false);
+
+        } catch (error) {
+            toast.error("Failed to update product!", {
+                position: "bottom-center",
+                duration: 2000,
+                style: {
+                    backgroundColor: "black",
+                    color: "white",
+                    width: "fit-content",
+                },
+            });
+        }
+        
+        
+        // Handle edit form submission logic
+    };
+
+    const resetForm = () => {
+        setProductToEdit(defaultProduct);
+        setSelectedEditFile(null);
+        setEditCategory('');
+    };
+
+    useEffect(() => {
+        if (updateIsSuccess) {
+            resetForm();
+        }
+    }, [updateIsSuccess]);
 
     const removeProductHandler = (id: number) => {
         deleteData(id);
     };
-    const renderFormEditInputs = formInputsList.map(input => (
-        <div key={input.id} className="flex flex-col w-[700px]">
-            <label htmlFor={input.id} className="text-sm font-medium mb-2">
-                {input.label}
-            </label>
-            <Input
-                type={input.type}
-                name={input.name}
-                id={input.id}
-                className="w-96"
-                // onChange={handleChange}
-            />
-        </div>
-    ));
+
+    const renderProductEdit = (id: string, label: string, name: TProductName, type: string) => {
+        return (
+            <div className="flex flex-col">
+                <label htmlFor={id} className="mb-2 text-sm font-medium">
+                    {label}
+                </label>
+                <Input className="w-96" type={type} id={id} name={id} value={productToEdit[name]} onChange={handleChangeEdit} />
+            </div>
+        );
+    };
 
     return (
         <tr key={data.id} className="text-center border-b border-gray-700">
@@ -109,20 +191,14 @@ const BodyOfTable = ({ data, index }: DataProps) => {
                     <Button onClick={() => setIsOpenConfirmModal(true)} className="p-2 bg-pink-600 rounded hover:bg-pink-700">
                         <i className="fa-solid fa-trash-can"></i>
                     </Button>
-                    <Button onClick={() => setIsOpenEditModal(true)} className="p-2 bg-blue-600 rounded hover:bg-blue-700">
+                    <Button onClick={openEditModal} className="p-2 bg-warning rounded hover:bg-amber-500">
                         <i className="fa-solid fa-pencil"></i>
                     </Button>
                 </div>
             </td>
 
-
             <Modal isOpen={isOpenEditModal} closeModal={() => setIsOpenEditModal(false)} title="Edit Product">
                 <form className='space-y-3' onSubmit={handleSubmitEdit}>
-                    {/* {renderProductEditWithErrorMsg('edit-title', 'Title', 'title')}
-                    {renderProductEditWithErrorMsg('edit-description', 'Description', 'description')}
-                    {renderProductEditWithErrorMsg('edit-imageURL', 'Image URL', 'imageURL')}
-                    {renderProductEditWithErrorMsg('edit-price', 'Price', 'price')} */}
-
                     <label htmlFor="upload-photo" className="capitalize text-sm font-medium mb-2">
                         Product image
                     </label>
@@ -131,11 +207,13 @@ const BodyOfTable = ({ data, index }: DataProps) => {
                         name="photo"
                         id="upload-photo"
                         className="file-input file-input-bordered file-input-warning w-96 "
-                        // onChange={onImageChange}
-
+                        onChange={onImageChange}
                     />
                     <div className="flex flex-col gap-5 items-start mt-5">
-                        {renderFormEditInputs}
+                        {renderProductEdit('title', 'Title', 'title', 'text')}
+                        {renderProductEdit('description', 'Description', 'description', 'text')}
+                        {renderProductEdit('price', 'price', 'price', 'number')}
+
                         <div className="mt-5">
                             <select className="select select-warning w-96" onChange={onSelectCategory} defaultValue="">
                                 <option disabled value="">Pick a category</option>
@@ -146,11 +224,13 @@ const BodyOfTable = ({ data, index }: DataProps) => {
                         </div>
                     </div>
                     <div className="flex items-center space-x-3">
-                        <Button className="bg-indigo-600 hover:bg-indigo-800">Submit</Button>
-                        <Button type="button" onClick={() => setIsOpenEditModal(false)} className="bg-[#f5f5fa] hover:bg-gray-300 !text-black">Cancel</Button>
+                        <Button className="bg-warning hover:bg-amber-500 font-medium capitalize px-3 py-2" disabled={isPosting}>
+                        {isPosting ? 'Updating...' : 'Save update'}
+
+                        </Button>
+                        <Button type="button" onClick={() => setIsOpenEditModal(false)} className="bg-[#f5f5fa] hover:bg-gray-300 font-medium capitalize px-3 py-2 !text-black">Cancel</Button>
                     </div>
                 </form>
-
             </Modal>
 
             <Modal
@@ -161,8 +241,10 @@ const BodyOfTable = ({ data, index }: DataProps) => {
             >
                 <div className="flex items-center space-x-3">
                     <Button className="bg-[#c2344d] hover:bg-red-800 py-2 px-3" onClick={() => removeProductHandler(data.id)} disabled={isLoading}>
-                        {isLoading ? (<>
-                            <span className="loading loading-spinner loading-xs"></span> Yes remove</>
+                        {isLoading ? (
+                            <>
+                                <span className="loading loading-spinner loading-xs"></span> Yes, remove
+                            </>
                         ) : (
                             "Yes, remove"
                         )}
